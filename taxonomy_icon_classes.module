@@ -1,0 +1,121 @@
+<?php
+/**
+ * @file
+ * adds a formatter for term reference fields that creates icons for the terms
+ * 
+ * thanks to Metal Toad for showing me some of the techniques used in this module
+ * http://www.metaltoad.com/blog/drupal-7-tutorial-creating-custom-formatters
+ */
+
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function taxonomy_icon_classes_field_formatter_info() {
+  return array(
+    'taxonomy_icon_classes_formatter' => array( 
+      'label' => t('Icons'),
+      'field types' => array('taxonomy_term_reference'),
+      'settings'  => array(
+        'icon_prefix' => 'icon-',
+        'size_prefix' => 'icon-',
+        'size' => '1x'
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function taxonomy_icon_classes_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  // This gets the view_mode where our settings are stored
+  $display = $instance['display'][$view_mode];
+
+  // This gets the actual settings
+  $settings = $display['settings'];
+
+  // Initialize the element variable
+  $element = array();
+
+  // settings for the icon prefix
+  $element['icon_prefix'] = array(
+    '#type'           => 'textfield',
+    '#title'          => t('Icon class prefix'),
+    '#description'    => t('The prefix that your icon classes use, if any.'),
+    '#default_value'  => $settings['icon_prefix']
+  );
+
+  // settings for the size prefix
+  $element['size_prefix'] = array(
+    '#type'           => 'textfield',
+    '#title'          => t('Icon size prefix'),
+    '#description'    => t('Prefix used for icon sizing: \'icon-\', \'fa-.\, etc.'),
+    '#default_value'  => $settings['size_prefix']
+  );
+
+  // Select the icon size
+  $element['size'] = array(
+    '#type'           => 'select',
+    '#title'          => t('Icon Size'),
+    '#description'    => t('The size of the icons relative to the font-size of the container element'),
+    '#default_value'  => $settings['size'],
+    '#options'        => array(
+      '1x'  => '1x',
+      'lg' => 'lg',
+      '2x' => '2x',
+      '3x' => '3x',
+      '4x' => '4x',
+      '5x' => '5x'
+    ),
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function taxonomy_icon_classes_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = t('Display icons corresponding to the term name<br>icon prefix: @icon_prefix<br>size prefix: @size_prefix<br>size: @size', array(
+    '@icon_prefix'  => $settings['icon_prefix'],
+    '@size_prefix'  => $settings['size_prefix'],
+    '@size'     => $settings['size'],
+  ));
+  return $summary;
+}
+          
+/**
+ * Implements hook_field_formatter_view().
+ */
+function taxonomy_icon_classes_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  
+  // Initialize the variables
+  $element = array(); 
+  $icons = '';
+  $size_class = '';
+
+  // get the settings
+  $settings = $display['settings'];
+  $icon_prefix = $settings['icon_prefix'];
+  $size_prefix = $settings['size_prefix'];
+  $size = $settings['size'];
+  if(!empty($size) && $size != '1x') {
+    $size_class = ' '.$size_prefix.$size;
+  }
+
+  // Create the icons
+  foreach ($items as $delta => $item) {
+
+    $iterm = taxonomy_term_load($item['tid']);
+    $icons .= '<i class="';
+    $icons .= $icon_prefix;
+    $icons .= $iterm->name;
+    $icons .= $size_class;
+    $icons .= '"></i>';
+  }
+  $element[0]['#markup'] = $icons;
+  return $element;
+}
