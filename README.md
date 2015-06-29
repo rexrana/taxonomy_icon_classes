@@ -5,4 +5,12 @@ This module creates a formatter for taxonomy reference fields 'Icons', which wil
 
 You can customize the icon prefix, the sizes prefix, and the size at which your icons to be.
 
+Example [FontAwesome](http://fortawesome.github.io/Font-Awesome/) icons:
 
+* icon prefix: **fa-**
+* size prefix: **fa-**
+* size: **lg**
+
+```html
+<i class="fa fa-camera-retro fa-lg"></i>
+```
