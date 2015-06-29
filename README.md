@@ -7,7 +7,7 @@ You can customize the icon prefix, the sizes prefix, and the size at which your 
 
 Example [FontAwesome](http://fortawesome.github.io/Font-Awesome/) icons:
 
-* icon prefix: **fa-**
+* icon prefix: **fa fa-**
 * size prefix: **fa-**
 * size: **lg**
 
