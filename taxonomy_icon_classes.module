@@ -102,8 +102,8 @@ function taxonomy_icon_classes_field_formatter_view($entity_type, $entity, $fiel
   $icon_prefix = $settings['icon_prefix'];
   $size_prefix = $settings['size_prefix'];
   $size = $settings['size'];
-  if(!empty($size) && $size != '1x') {
-    $size_class = ' '.$size_prefix.$size;
+  if (!empty($size) && $size != '1x') {
+    $size_class = ' ' . $size_prefix . $size;
   }
 
   // Create the icons
