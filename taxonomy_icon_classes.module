@@ -2,7 +2,7 @@
 /**
  * @file
  * adds a formatter for term reference fields that creates icons for the terms
- * 
+ *
  * thanks to Metal Toad for showing me some of the techniques used in this module
  * http://www.metaltoad.com/blog/drupal-7-tutorial-creating-custom-formatters
  */
@@ -13,7 +13,7 @@
  */
 function taxonomy_icon_classes_field_formatter_info() {
   return array(
-    'taxonomy_icon_classes_formatter' => array( 
+    'taxonomy_icon_classes_formatter' => array(
       'label' => t('Icons'),
       'field types' => array('taxonomy_term_reference'),
       'settings'  => array(
@@ -86,15 +86,16 @@ function taxonomy_icon_classes_field_formatter_settings_summary($field, $instanc
   ));
   return $summary;
 }
-          
+
 /**
  * Implements hook_field_formatter_view().
  */
 function taxonomy_icon_classes_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  
+
   // Initialize the variables
-  $element = array(); 
-  $icons = '';
+  $element = array();
+  $icons = array();
+  $icon_markup_temp = '';
   $size_class = '';
 
   // get the settings
@@ -108,14 +109,17 @@ function taxonomy_icon_classes_field_formatter_view($entity_type, $entity, $fiel
 
   // Create the icons
   foreach ($items as $delta => $item) {
+    $icon_markup_temp = '';
 
     $iterm = taxonomy_term_load($item['tid']);
-    $icons .= '<i class="';
-    $icons .= $icon_prefix;
-    $icons .= $iterm->name;
-    $icons .= $size_class;
-    $icons .= '"></i>';
+    $icon_markup_temp .= '<i class="';
+    $icon_markup_temp .= $icon_prefix;
+    $icon_markup_temp .= $iterm->name;
+    $icon_markup_temp .= $size_class;
+    $icon_markup_temp .= '"></i>';
+
+    $icons[] = $icon_markup_temp;
   }
-  $element[0]['#markup'] = $icons;
+  $element[0]['#markup'] = implode(' ', $icons);
   return $element;
 }
