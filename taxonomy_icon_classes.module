@@ -109,17 +109,11 @@ function taxonomy_icon_classes_field_formatter_view($entity_type, $entity, $fiel
 
   // Create the icons
   foreach ($items as $delta => $item) {
-    $icon_markup_temp = '';
-
     $iterm = taxonomy_term_load($item['tid']);
-    $icon_markup_temp .= '<i class="';
-    $icon_markup_temp .= $icon_prefix;
-    $icon_markup_temp .= $iterm->name;
-    $icon_markup_temp .= $size_class;
-    $icon_markup_temp .= '"></i>';
-
-    $icons[] = $icon_markup_temp;
+    $classes = $icon_prefix . $iterm->name . $size_class;
+    $icons[] = sprintf( '<i class="%s" aria-hidden="true"></i>', $classes );
   }
+  
   $element[0]['#markup'] = implode(' ', $icons);
   return $element;
 }
