@@ -1,5 +1,5 @@
 name = Taxonomy Icon Classes
-description = "Add a formatter to taxonomy term reference fields that allows you to display an icon matching the term name. Meant to be used in conjunction with icon fonts like fontawesome"
+description = "Add a formatter to taxonomy term reference fields that allows you to display an icon matching the term name."
 package = Fields
 core = 7.x
 files[] = taxonomy_icon_classes.module
