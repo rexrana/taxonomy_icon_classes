@@ -12,5 +12,5 @@ Example [FontAwesome](http://fortawesome.github.io/Font-Awesome/) icons:
 * size: **lg**
 
 ```html
-<i class="fa fa-camera-retro fa-lg"></i>
+<i class="fa fa-camera-retro fa-lg" aria-hidden="true"></i>
 ```
